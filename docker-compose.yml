@@ -1,0 +1,25 @@
+version: '3'
+services:
+  http:
+    image: nginx:1.15.9-alpine
+    ports:
+      - 8000:80
+    volumes:
+      - ./src:/var/www
+      - ./configs/nginx.conf:/etc/nginx/nginx.conf
+
+  php:
+    build: .
+    ports:
+      - 9000:9000
+    volumes:
+      - ./src:/var/www
+      - /var/www/vendor
+  #   environment:
+  #     DATABASE_URL: postgres://recipe@postgres/recipes
+
+  # db:
+  #   image: postgres:11.2-alpine
+  #   environment:
+  #     POSTGRES_USER: recipe
+  #     POSTGRES_DB: recipes
