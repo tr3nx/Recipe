@@ -7,31 +7,36 @@ use Core\Http\Router;
 class App {
 	private $router;
 	private $http;
-	public $config;
+	public static $config = [
+		'paths' => [
+			'root' => __DIR__ . '/..',
+			'app' => '/app',
+			'views' => '/views'
+		],
+		'routes' => [
+			'/' => ['\App\Controllers\Home::index', 'home']
+		]
+	];
 
-	function __construct($_rootpath) {
-		$this->config = [
-			'paths' => [
-				'root' => $_rootpath,
-				'app' => '/app',
-				'views' => '/views'
-			],
-			'routes' => [
-				'/' => ['\App\Controllers\Home::index', 'home']
-			]
-		];
-		$this->router = new Router($this->config['routes']);
+	function __construct() {
+		$this->router = new Router(self::$config);
 	}
 
-	public function path($key) {
-		$p = $this->config['paths']['root'];
-		if (array_key_exists($key, $this->config['paths'])) {
-			$p .= $this->config['paths'][$key];
-		}
-		return $p;
-	} 
+	public function config($keypath) {
+		$keyparts = explode(".", $keypath);
 
-	public function serve() {
+		$_config = self::$config;
+
+		foreach($keyparts as $part) {
+			if (array_key_exists($part, $_config)) {
+				$_config = $_config[$part];
+			}
+		}
+
+		return $_config;
+	}
+
+	public function run() {
 		$this->router->execute();
 	}
 }

@@ -7,8 +7,8 @@ use App\Controllers;
 class Router {
 	private $routes;
 
-	function __construct($_routes) {
-		$this->routes = $_routes ?: [];
+	function __construct($_config) {
+		$this->routes = $_config['routes'] ?: [];
 	}
 
 	public function add($url, $fn, $name = "") {

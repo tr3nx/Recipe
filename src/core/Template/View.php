@@ -8,7 +8,13 @@ class View {
 			return "no path";
 		}
 
-		$file = $GLOBALS['app']->path('views') . '/' . $path . '.php';
+		$file = $GLOBALS['app']->config('paths.root')
+			  . '/'
+			  . $GLOBALS['app']->config('paths.views')
+			  . '/'
+			  . $path
+			  . '.php';
+
 		if (strlen($file) <= 0) {
 			return "no filename";
 		}
