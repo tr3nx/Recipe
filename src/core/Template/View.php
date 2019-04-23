@@ -8,9 +8,9 @@ class View {
 			return "no path";
 		}
 
-		$file = $GLOBALS['app']->config('paths.root')
+		$file = \Core\App::getInstance()->config('paths.root')
 			  . '/'
-			  . $GLOBALS['app']->config('paths.views')
+			  . \Core\App::getInstance()->config('paths.views')
 			  . '/'
 			  . $path
 			  . '.php';
@@ -20,6 +20,7 @@ class View {
 		}
 
 		if (!file_exists($file)) {
+			var_dump($file);
 			return "doesn't exist";
 		}
 

@@ -7,11 +7,15 @@ use App\Controllers;
 class Router {
 	private $routes;
 
-	function __construct($_config) {
-		$this->routes = $_config['routes'] ?: [];
+	function __construct($_routes) {
+		$this->routes = $_routes ?: [];
 	}
 
-	public function add($url, $fn, $name = "") {
+	public function get($url, $fn, $name = "") {
+		$this->routes[$url] = [$fn, $name];
+	}
+
+	public function post($url, $fn, $name = "") {
 		$this->routes[$url] = [$fn, $name];
 	}
 
@@ -23,7 +27,13 @@ class Router {
 			return;
 		}
 
+		$rps = explode("::", $route[0]);
+		$controller = $rps[0];
+		$method = $rps[1];
+
 		$response = new Response();
-		$response->respond(call_user_func($route[0], [&$request, &$response]));
+		return $response->respond(
+			(new $controller())->{$method}([&$request, &$response])
+		);
 	}
 }

@@ -4,28 +4,19 @@ namespace Core;
 
 use Core\Http\Router;
 
-class App {
+class App extends Singleton {
 	private $router;
-	private $http;
-	public static $config = [
-		'paths' => [
-			'root' => __DIR__ . '/..',
-			'app' => '/app',
-			'views' => '/views'
-		],
-		'routes' => [
-			'/' => ['\App\Controllers\Home::index', 'home']
-		]
-	];
+	private $config;
 
 	function __construct() {
-		$this->router = new Router(self::$config);
+		$this->config = require_once '../config.php';
+		$this->router = new Router($this->config('routes'));
 	}
 
 	public function config($keypath) {
 		$keyparts = explode(".", $keypath);
 
-		$_config = self::$config;
+		$_config = $this->config;
 
 		foreach($keyparts as $part) {
 			if (array_key_exists($part, $_config)) {
@@ -37,6 +28,6 @@ class App {
 	}
 
 	public function run() {
-		$this->router->execute();
+		return $this->router->execute();
 	}
 }

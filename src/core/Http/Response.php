@@ -3,42 +3,61 @@
 namespace Core\Http;
 
 class Response {
-	public $data;
-	public $headers;
+	private $data;
+	private $headers;
+	private $status;
 
 	function __construct($_headers = []) {
 		$this->headers = $_headers;
+		$this->status = [200, "OK"];
 	}
 
-	function withHeader($header, $value) {
+	public function respond($buffer) {
+		if (self::isJson($buffer)) {
+			$this->setJsonHeader();
+		} else {
+			$this->setHtmlHeader();
+		}
+
+		$this->applyHeaders();
+		$this->applyStatus();
+
+		return $buffer;
+	}
+
+	public function withHeader($header, $value) {
 		$this->headers[$header] = $value;
 		return $this;
 	}
 
-	function applyHeaders() {
+	private function applyHeaders() {
 		foreach ($this->headers as $key => $value) {
-			header(sprintf("%s: %s", $k, $v));
+			header(sprintf("%s: %s", $key, $value));
 		}
 		return $this;
 	}
 
-	function respond($buffer = "") {
-		echo $this->respondHtml($buffer);
+	private function setJsonHeader() {
+		$this->withHeader("Content-Type", "application/json; charset=utf-8");
 	}
 
-	function respondJson($buffer) {
-		$this->withHeader("Content-Type", "application/json; charset=utf-8")->applyHeaders();
-		return json_encode($buffer);
+	private function setHtmlHeader() {
+		$this->withHeader("Content-Type", "text/html; charset=utf-8");
 	}
 
-	function respondHtml($buffer) {
-		$this->withHeader("Content-Type", "text/html; charset=utf-8")->applyHeaders();
-		return (string)$buffer;
+	private static function isJson($str) {
+		if (!substr($str, 0, 1) === "{") {
+			return false;
+		}
+		json_decode($str);
+		return (json_last_error() == JSON_ERROR_NONE);
 	}
 
-	function getStatusCode() {}
+	public function withStatus($code, $reason = '') {
+		$this->status = [$code, $reason];
+	}
 
-	function withStatus($code, $reason = '') {}
-
-	function getReasonPhrase() {}
+	private function applyStatus() {
+		http_response_code($this->status[0]);
+	}
 }
