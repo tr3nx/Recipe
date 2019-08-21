@@ -6,14 +6,20 @@ class Recipes {
 	protected $recipes = [];
 
 	function __construct() {
-		array_push($this->recipes, new \App\Models\Recipe(
-			"My amazing recipe",
+		foreach(range(0, 5) as $n) {
+			array_push($this->recipes, static::generateRecipe());
+		}
+	}
+
+	private static function generateRecipe() {
+		return new \App\Models\Recipe(
+			"My amazing recipe " . rand(1, 50),
 			[
-				"eggs" => 2,
-				"bread" => 3,
-				"bacon" => 5,
-				"butter" => 1,
-				"hot sauce" => 4,
+				"eggs" => rand(1, 6),
+				"bread" => rand(1, 8),
+				"bacon" => rand(1, 10),
+				"butter" => rand(1, 2),
+				"hot sauce" => rand(1, 6),
 			],
 			[
 				"season your food",
@@ -21,14 +27,15 @@ class Recipes {
 				"grill your shit",
 				"eat it",
 			]
-		));
+		);
 	}
 
 	public function index() {
 		return json_encode($this->recipes[0]);
 	}
 
-	// public function single($id) {
-	// 	return $this->recipes[$id];
-	// }
+	public function single($data) {
+		var_dump($data);
+		return $this->recipes[5];
+	}
 }

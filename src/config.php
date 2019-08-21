@@ -1,15 +1,33 @@
 <?php
 
 return [
-	'paths' => [
-		'root' => __DIR__,
-		'app' => '/app',
-		'views' => '/views',
+	'hostname' => 'recipePHP',
+	'url' => 'https://recipe.localhost/',
+	'routing' => [
+		'/recipes/{id}' => ['\App\Controllers\Recipes::single', 'Recipe'],
+		'/recipes'      => ['\App\Controllers\Recipes::index', 'Recipes'],
+		'/home'         => ['\App\Controllers\Home::index', 'home'],
+		'/'             => ['\App\Controllers\Home::index', '/'],
 	],
-	'routes' => [
-		'/' => ['\App\Controllers\Home::index', '/'],
-		'/home' => ['\App\Controllers\Home::index', 'home'],
-		'/recipes' => ['\App\Controllers\Recipes::index', 'Recipes'],
-		// '/recipes/{id}' => ['\App\Controllers\Recipes::index', 'Recipe'],
+	'database' => [
+		'driver'     => 'postgres',
+		'host'       => 'localhost:5432',
+		'database'   => 'recipe',
+		'username'   => 'recipe-user',
+		'password'   => 'mypass123',
+	],
+	'paths' => [
+		'root'    => __DIR__,
+		'app'     => '/app',
+		'views'   => '/views',
+		'storage' => '/storage',
+	],
+	'logging' => [
+		'path'       => 'logs',
+		'fileformat' => 'm-d-Y',
+	],
+	'caching' => [
+		'driver'     => 'memory',
+		'bustchance' => 2,
 	],
 ];

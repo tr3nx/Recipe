@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
-class Recipe {
+use Core\Database\Model;
+
+class Recipe extends Model {
 	public $title;
 	public $ingredients;
 	public $instructions;

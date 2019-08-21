@@ -2,8 +2,6 @@
 
 namespace Core\Http;
 
-use App\Controllers;
-
 class Router {
 	private $routes;
 
@@ -15,10 +13,6 @@ class Router {
 		$this->routes[$url] = [$fn, $name];
 	}
 
-	public function post($url, $fn, $name = "") {
-		$this->routes[$url] = [$fn, $name];
-	}
-
 	public function execute() {
 		$request = new Request();
 
@@ -27,13 +21,9 @@ class Router {
 			return;
 		}
 
-		$rps = explode("::", $route[0]);
-		$controller = $rps[0];
-		$method = $rps[1];
+		[$controller, $method] = explode("::", $route[0]);
 
 		$response = new Response();
-		return $response->respond(
-			(new $controller())->{$method}([&$request, &$response])
-		);
+		return $response->respond((new $controller())->{$method}([&$request, &$response]));
 	}
 }

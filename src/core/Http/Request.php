@@ -3,7 +3,7 @@
 namespace Core\Http;
 
 class Request {
-	public $data;
+	private $data;
 	public $url;
 	public $method;
 	public $query;
@@ -13,16 +13,16 @@ class Request {
 
 	function __construct() {
 		$this->data = [
-			'post' => self::sanitize($_POST),
-			'get' => $this->get = self::sanitize($_GET),
-			'server' => $this->server = self::sanitize($_SERVER)
+			'post'   => self::sanitize($_POST),
+			'get'    => self::sanitize($_GET),
+			'server' => self::sanitize($_SERVER)
 		];
-		$this->url = $this->data['server']['REQUEST_URI'] ?: "";
-		$this->method = $this->data['server']['REQUEST_METHOD'] ?: "";
-		$this->query = $this->data['server']['QUERY_STRING'] ?: "";
-		$this->ip = $this->data['server']['REMOTE_ADDR'] ?: "";
-		$this->agent = $this->data['server']['HTTP_USER_AGENT'] ?: "";
-		$this->referer = $this->data['server']['HTTP_REFERER'] ?: "";
+		$this->url     = $this->data['server']['REQUEST_URI']     ?: "";
+		$this->method  = $this->data['server']['REQUEST_METHOD']  ?: "";
+		$this->query   = $this->data['server']['QUERY_STRING']    ?: "";
+		$this->ip      = $this->data['server']['REMOTE_ADDR']     ?: "";
+		$this->agent   = $this->data['server']['HTTP_USER_AGENT'] ?: "";
+		$this->referer = $this->data['server']['HTTP_REFERER']    ?: "";
 	}
 
 	private static function sanitize($opts, $allowed = []) {

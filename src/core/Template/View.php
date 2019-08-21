@@ -20,7 +20,6 @@ class View {
 		}
 
 		if (!file_exists($file)) {
-			var_dump($file);
 			return "doesn't exist";
 		}
 
