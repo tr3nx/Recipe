@@ -5,8 +5,8 @@ namespace Core\Http;
 class Router {
 	private $routes;
 
-	function __construct($_routes) {
-		$this->routes = $_routes ?: [];
+	function __construct($app) {
+		$this->routes = $app->config('routing') ?: [];
 	}
 
 	public function get($url, $fn, $name = "") {

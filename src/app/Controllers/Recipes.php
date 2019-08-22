@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\Recipe;
+
 class Recipes {
 	protected $recipes = [];
 
@@ -12,7 +14,7 @@ class Recipes {
 	}
 
 	private static function generateRecipe() {
-		return new \App\Models\Recipe(
+		return new Recipe(
 			"My amazing recipe " . rand(1, 50),
 			[
 				"eggs" => rand(1, 6),
@@ -24,7 +26,7 @@ class Recipes {
 			[
 				"season your food",
 				"cut your carrots",
-				"grill your shit",
+				"grill your $#^%",
 				"eat it",
 			]
 		);

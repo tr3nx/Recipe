@@ -21,9 +21,9 @@ return [
 		'app'     => '/app',
 		'views'   => '/views',
 		'storage' => '/storage',
+		'logs'    => '/storage/logs',
 	],
 	'logging' => [
-		'path'       => 'logs',
 		'fileformat' => 'm-d-Y',
 	],
 	'caching' => [

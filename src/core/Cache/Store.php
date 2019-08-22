@@ -5,7 +5,7 @@ namespace Core\Cache;
 class Store {
 	private $cache;
 
-	public function __construct() {
+	public function __construct($app) {
 		$this->cache = [];
 	}
 

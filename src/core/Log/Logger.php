@@ -5,12 +5,10 @@ namespace Core\Log;
 class Logger {
 	private $logpath;
 
-	function __construct($_config) {
-		die(var_dump(\Core\App::getInstance()));
-		// $this->logpath = \Core\App::getInstance()->config('paths.storage')
-		// 			   . $_config['path']
-		// 			   . date($_config['fileformat'])
-		// 			   . '.log';
+	function __construct($app) {
+		$this->logpath = $app->config('paths.logs')
+					   . date($app->config('logging.fileformat'))
+					   . '.log';
 	}
 
 	private function write($data) {}

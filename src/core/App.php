@@ -16,12 +16,13 @@ class App extends Singleton {
 
 	function __construct() {
 		$this->_config = require_once '../config.php';
+	}
 
-		// init outside App
-		$this->router = new Router($this->config('routing'));
-		$this->db     = new Database($this->config('database'));
-		// $this->logger = new Logger($this->config('logging'));
-		$this->cache  = new Cache($this->config('caching'));
+	public function initialize() {
+		$this->router = new Router($this);
+		$this->db     = new Database($this);
+		$this->logger = new Logger($this);
+		$this->cache  = new Cache($this);
 	}
 
 	public function config($keypath) {

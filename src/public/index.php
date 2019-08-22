@@ -6,4 +6,6 @@ require __DIR__ . "/../vendor/autoload.php";
 
 $GLOBALS['app'] = $app = \Core\App::getInstance();
 
+$app->initialize();
+
 echo $app->run();

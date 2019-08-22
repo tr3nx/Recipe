@@ -11,12 +11,12 @@ class Database {
 	private $username;
 	private $password;
 
-	function __construct($_config) {
-		$this->driver   = self::loadDriver($_config['driver']);
-		$this->host     = $_config['host'];
-		$this->database = $_config['database'];
-		$this->username = $_config['username'];
-		$this->password = $_config['password'];
+	function __construct($app) {
+		$this->driver   = self::loadDriver($app->config('driver'));
+		$this->host     = $app->config('host');
+		$this->database = $app->config('database');
+		$this->username = $app->config('username');
+		$this->password = $app->config('password');
 	}
 
 	public function loadDriver($driver) {
