@@ -1,25 +1,52 @@
-version: '3'
+version: "3.7"
+
 services:
   http:
-    image: nginx:1.15.9-alpine
-    ports:
-      - 8000:80
+    image: nginx:alpine
+    expose:
+      - 80
+    networks:
+      - default
     volumes:
       - ./src:/var/www
       - ./configs/nginx.conf:/etc/nginx/nginx.conf
+    restart: always
+    environment:
+      VIRTUAL_HOST: recipe.localhost
 
   php:
-    build: .
+    build:
+      dockerfile: php.dockerfile
+      context: .
+#    depends_on:
+#      - db
     ports:
       - 9000:9000
     volumes:
       - ./src:/var/www
       - /var/www/vendor
-  #   environment:
-  #     DATABASE_URL: postgres://recipe@postgres/recipes
+    restart: always
+#    environment:
+#      DATABASE_PATH: postgres://recipe@postgres/recipe
 
-  # db:
-  #   image: postgres:11.2-alpine
-  #   environment:
-  #     POSTGRES_USER: recipe
-  #     POSTGRES_DB: recipes
+#  db:
+#    image: postgres:alpine
+#    restart: always
+#    volumes:
+#      - db-data:/var/lib/postgresql/data
+#    environment:
+#      POSTGRES_DB: recipe
+#      POSTGRES_USER: recipe
+#      POSTGRES_PASS: recipe123
+
+#  redis:
+#    image: redis:alpine
+#    restart: always
+
+#volumes:
+#  db-data:
+
+networks:
+  default:
+    external: true
+    name: nginx-proxy

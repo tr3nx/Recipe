@@ -1,4 +1,4 @@
-FROM php:7.3-fpm-alpine
+FROM php:7.4.0beta2-fpm-alpine3.10
 
 RUN apk update && apk add build-base
 
@@ -17,5 +17,3 @@ WORKDIR /var/www
 RUN composer install --prefer-source --no-interaction
 
 ENV PATH="~/.composer/vendor/bin:./vendor/bin:${PATH}"
-
-EXPOSE 80
