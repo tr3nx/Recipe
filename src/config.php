@@ -9,7 +9,7 @@ return [
 		'/home'         => ['\App\Controllers\Home::index', 'home'],
 		'/'             => ['\App\Controllers\Home::index', '/'],
 	],
-	'database' => [
+	'db' => [
 		'driver'     => 'postgres',
 		'host'       => 'localhost:5432',
 		'database'   => 'recipe',

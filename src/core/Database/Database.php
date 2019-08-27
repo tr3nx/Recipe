@@ -3,30 +3,26 @@
 namespace Core\Database;
 
 use Core\Database\Driver\Postgres;
+use Core\Database\Driver\Memory;
 
 class Database {
-	private $driver;
-	private $host;
-	private $database;
-	private $username;
-	private $password;
+	public $driver;
+	public $connection;
 
 	function __construct($app) {
-		$this->driver   = self::loadDriver($app->config('driver'));
-		$this->host     = $app->config('host');
-		$this->database = $app->config('database');
-		$this->username = $app->config('username');
-		$this->password = $app->config('password');
+		$this->driver = self::loadDriver($app->config('driver'));
 	}
 
 	public function loadDriver($driver) {
-		if ($driver === "postgres") {
-			return new Postgres();
-		}
-		// 
-	}
+		switch ($driver) {
+			case "postgres":
+				return new Postgres($app->config('db'));
+			break;
 
-	public function connection() {
-		// create db connection
+			default:
+			case "memory":
+				return new Memory($app->config('db'));
+			break;
+		}
 	}
 }

@@ -30,7 +30,7 @@ class App extends Singleton {
 
 		$_config = $this->_config;
 
-		foreach($keyparts as $part) {
+		foreach ($keyparts as $part) {
 			if (array_key_exists($part, $_config)) {
 				$_config = $_config[$part];
 			}
