@@ -2,14 +2,8 @@
 
 namespace Core\Database;
 
-class Model extends QueryBuilder {
+abstract class Model {
 	protected $table;
-
-	function __construct($classname) {
-		$this->table = $classname;
-
-		parent::__construct();
-	}
 
 	public function first() {}
 	public function find() {}

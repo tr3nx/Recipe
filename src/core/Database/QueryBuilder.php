@@ -2,7 +2,7 @@
 
 namespace Core\Database;
 
-class QueryBuilder extends Database {
+class QueryBuilder {
 	function __construct() {
 		
 	}

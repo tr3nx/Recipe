@@ -29,8 +29,15 @@ class Request {
 		return $opts;
 	}
 
+	public function data($key) {
+		return $this->data['get'][$key]
+			?: $this->data['post'][$key]
+			?: $this->data['server'][$key]
+			?: false;
+	}
+
 	public function get($key) {
-		return $this->data['post'][$key] ?: false;
+		return $this->data['get'][$key] ?: false;
 	}
 
 	public function post($key) {

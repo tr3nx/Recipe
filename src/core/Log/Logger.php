@@ -4,10 +4,12 @@ namespace Core\Log;
 
 class Logger extends Singleton {
 	private $logpath;
+	private $fileformat;
 
 	function __construct($app) {
+		$this->fileformat = $app->config('logging.fileformat');
 		$this->logpath = $app->config('paths.logs')
-					   . date($app->config('logging.fileformat'))
+					   . date($this->fileformat)
 					   . '.log';
 	}
 

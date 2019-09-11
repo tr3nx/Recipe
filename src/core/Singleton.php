@@ -2,7 +2,7 @@
 
 namespace Core;
 
-class Singleton {
+abstract class Singleton {
 	private static $instances = [];
 
 	protected function __construct() {}
@@ -11,10 +11,10 @@ class Singleton {
 		throw new Exception("Cannot unserialize singleton class.");
 	}
 
-	public static function getInstance() {
+	public static function getInstance($data=null) {
 		$class = static::class;
 		if (!isset(self::$instances[$class])) {
-			self::$instances[$class] = new static;
+			self::$instances[$class] = new static($data);
 		}
 		return self::$instances[$class];
 	}

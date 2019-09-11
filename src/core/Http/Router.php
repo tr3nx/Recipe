@@ -24,6 +24,6 @@ class Router extends Singleton {
 		[$controller, $method] = explode("::", $route[0]);
 
 		$response = new Response();
-		return $response->respond((new $controller())->{$method}([&$request, &$response]));
+		return $response->respond((new $controller())->{$method}(&$request, &$response));
 	}
 }
