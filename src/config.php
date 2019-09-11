@@ -12,9 +12,9 @@ return [
 	'db' => [
 		'driver'     => 'postgres',
 		'host'       => 'localhost:5432',
-		'database'   => 'recipe',
-		'username'   => 'recipe-user',
-		'password'   => 'mypass123',
+		'dbname'     => 'recipe',
+		'username'   => 'recipe',
+		'password'   => 'recipe',
 	],
 	'paths' => [
 		'root'    => __DIR__,

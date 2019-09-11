@@ -2,7 +2,7 @@
 
 namespace Core\Log;
 
-class Logger {
+class Logger extends Singleton {
 	private $logpath;
 
 	function __construct($app) {

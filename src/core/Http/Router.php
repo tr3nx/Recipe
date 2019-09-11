@@ -2,7 +2,7 @@
 
 namespace Core\Http;
 
-class Router {
+class Router extends Singleton {
 	private $routes;
 
 	function __construct($app) {

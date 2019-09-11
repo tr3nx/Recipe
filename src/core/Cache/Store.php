@@ -2,7 +2,7 @@
 
 namespace Core\Cache;
 
-class Store {
+class Store extends Singleton {
 	private $cache;
 
 	public function __construct($app) {

@@ -2,15 +2,15 @@
 
 namespace Core;
 
-use Core\Http\Router;
 use Core\Database\Database;
+use Core\Http\Router;
 use Core\Log\Logger;
 use Core\Cache\Store as Cache;
 
 class App extends Singleton {
 	private $_config;
-	private $router;
 	private $db;
+	private $router;
 	private $logger;
 	private $cache;
 
@@ -19,10 +19,10 @@ class App extends Singleton {
 	}
 
 	public function initialize() {
-		$this->router = new Router($this);
-		$this->db     = new Database($this);
-		$this->logger = new Logger($this);
-		$this->cache  = new Cache($this);
+		$this->db     = Database::getInstance($this);
+		$this->router = Router::getInstance($this);
+		$this->logger = Logger::getInstance($this);
+		$this->cache  = Cache::getInstance($this);
 	}
 
 	public function config($keypath) {

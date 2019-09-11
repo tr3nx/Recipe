@@ -2,7 +2,7 @@
 
 namespace Core\Database;
 
-class Model extends Query {
+class Model extends QueryBuilder {
 	protected $table;
 
 	function __construct($classname) {

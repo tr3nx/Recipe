@@ -18,33 +18,35 @@ services:
     build:
       dockerfile: php.dockerfile
       context: .
-#    depends_on:
-#      - db
+    depends_on:
+      - db
+    expose:
+      - 9000
     ports:
       - 9000:9000
     volumes:
       - ./src:/var/www
       - /var/www/vendor
     restart: always
-#    environment:
-#      DATABASE_PATH: postgres://recipe@postgres/recipe
+    environment:
+      DATABASE_PATH: postgres://recipe@postgres/recipe
 
-#  db:
-#    image: postgres:alpine
-#    restart: always
-#    volumes:
-#      - db-data:/var/lib/postgresql/data
-#    environment:
-#      POSTGRES_DB: recipe
-#      POSTGRES_USER: recipe
-#      POSTGRES_PASS: recipe123
+  db:
+    image: postgres:alpine
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: recipe
+      POSTGRES_USER: recipe
+      POSTGRES_PASS: recipe
 
 #  redis:
 #    image: redis:alpine
 #    restart: always
 
-#volumes:
-#  db-data:
+volumes:
+  db-data:
 
 networks:
   default:

@@ -2,27 +2,37 @@
 
 namespace Core\Database;
 
-use Core\Database\Driver\Postgres;
-use Core\Database\Driver\Memory;
-
-class Database {
-	public $driver;
+class Database extends Singleton {
 	public $connection;
 
 	function __construct($app) {
-		$this->driver = self::loadDriver($app->config('driver'));
+		$this->connection_string = "host={$this->host} port={$this->port} dbname={$this->dbname} user={$this->username} password={$this->password}";
 	}
 
-	public function loadDriver($driver) {
-		switch ($driver) {
-			case "postgres":
-				return new Postgres($app->config('db'));
-			break;
+	public function connect() {
+		$this->connection = pg_connect($this->connection_string);
+	}
 
-			default:
-			case "memory":
-				return new Memory($app->config('db'));
-			break;
-		}
+	public function status() {
+		return pg_connection_status($this->connection);
+	}
+
+	public function isConnected() {
+		return pg_ping($this->connection);
+	}
+
+	public function disconnect() {
+		return pg_close($this->connection);
+	}
+
+	public function reset() {
+		return pg_flush($this->connection);
+	}
+
+	public function query($query) {
+		$result = pg_query($this->connection, $query);
+		return ($result)
+			: pg_result_status($result)
+			? pg_last_error($this->connection);
 	}
 }
