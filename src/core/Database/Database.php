@@ -2,6 +2,8 @@
 
 namespace Core\Database;
 
+use Core\Singleton;
+
 class Database extends Singleton {
 	private $host;
 	private $port;

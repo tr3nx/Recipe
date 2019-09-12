@@ -2,6 +2,8 @@
 
 namespace Core\Log;
 
+use Core\Singleton;
+
 class Logger extends Singleton {
 	private $logpath;
 	private $fileformat;

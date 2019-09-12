@@ -2,15 +2,17 @@
 
 namespace Core\Template;
 
+use Core\App;
+
 class View {
 	public static function render($path, $data=[]) {
 		if (strlen($path) <= 0) {
 			return "no path";
 		}
 
-		$file = \Core\App::getInstance()->config('paths.root')
+		$file = App::getInstance()->config('paths.root')
 			  . '/'
-			  . \Core\App::getInstance()->config('paths.views')
+			  . App::getInstance()->config('paths.views')
 			  . '/'
 			  . $path
 			  . '.php';

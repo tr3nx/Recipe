@@ -2,6 +2,8 @@
 
 namespace Core\Http;
 
+use Core\Singleton;
+
 class Router extends Singleton {
 	private $routes;
 
@@ -24,6 +26,6 @@ class Router extends Singleton {
 		[$controller, $method] = explode("::", $route[0]);
 
 		$response = new Response();
-		return $response->respond((new $controller())->{$method}(&$request, &$response));
+		return $response->respond((new $controller())->{$method}([&$request, &$response]));
 	}
 }
