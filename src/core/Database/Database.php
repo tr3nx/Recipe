@@ -5,21 +5,10 @@ namespace Core\Database;
 use Core\Singleton;
 
 class Database extends Singleton {
-	private $host;
-	private $port;
-	private $dbname;
-	private $username;
-	private $password;
-
 	public $connection;
 
 	function __construct($app) {
-		$this->host = $app->config('db.host');
-		$this->port = $app->config('db.port');
-		$this->dbname = $app->config('db.dbname');
-		$this->username = $app->config('db.username');
-		$this->password = $app->config('db.password');
-		$this->connection_string = "host={$this->host} port={$this->port} dbname={$this->dbname} user={$this->username} password={$this->password}";
+		$this->connection_string = $app->config('db.dsn');
 	}
 
 	public function connect() {

@@ -10,12 +10,7 @@ return [
 		'/'             => ['\App\Controllers\Home::index', '/'],
 	],
 	'db' => [
-		'driver'   => 'postgres',
-		'host'     => 'localhost',
-		'port'     => '5432',
-		'dbname'   => 'recipe',
-		'username' => 'recipe',
-		'password' => 'recipe',
+		'dsn' => getenv('DATABASE_PATH'),
 	],
 	'paths' => [
 		'root'    => __DIR__,
