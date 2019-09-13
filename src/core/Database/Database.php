@@ -35,12 +35,14 @@ class Database extends Singleton {
 		$result = pg_query($this->connection, $query);
 		return ($result)
 		? (object) [
-			'result'   => pg_fetch_assoc($result),
+			'data'   => pg_fetch_assoc($result),
 			'raw'      => $result,
 			'status'   => pg_result_status($result),
-			'fields'   => pg_num_fields($result),
-			'rows'     => pg_num_rows($result),
-			'affected' => pg_affected_rows($result)
+			'counts' => [
+				'fields'   => pg_num_fields($result),
+				'rows'     => pg_num_rows($result),
+				'affected' => pg_affected_rows($result)
+			]
 		]
 		: pg_last_error($this->connection);
 	}

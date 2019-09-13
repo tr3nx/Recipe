@@ -29,7 +29,7 @@ services:
       - /var/www/vendor
     restart: always
     environment:
-      DATABASE_PATH: postgres://recipe@postgres/recipe
+      DATABASE_PATH: postgres://recipe@db/recipe
 
   db:
     image: postgres:alpine

@@ -52,6 +52,10 @@ class QueryBuilder {
 		return $this->db->query($this->generateSql());
 	}
 
+	public function raw() {
+		return $this->generateSql();
+	}
+
 	private function generateSql() {
 		$this->sql = "SELECT {$this->fields} FROM {$this->table} ";
 
