@@ -12,7 +12,7 @@ class Recipes {
 	}
 
 	public function index() {
-		return Recipe::find(1)->first();
+		return print_r((new Recipe)->find(1)->first(), true);
 	}
 
 	public function single($request, $response) {

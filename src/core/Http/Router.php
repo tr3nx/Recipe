@@ -16,16 +16,13 @@ class Router extends Singleton {
 	}
 
 	public function execute() {
-		$request = new Request();
+		$request  = new Request();
+		$response = new Response();
 
 		$route = $this->routes[$request->url];
-		if (!isset($route)) {
-			return;
-		}
+		if (!isset($route)) return;
 
 		[$controller, $method] = explode("::", $route[0]);
-
-		$response = new Response();
 		return $response->respond((new $controller())->{$method}([&$request, &$response]));
 	}
 }

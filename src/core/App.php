@@ -7,19 +7,16 @@ use Core\Http\Router;
 use Core\Log\Logger;
 use Core\Cache\Store as Cache;
 use Core\Support\Singleton;
-use Core\Support\Facade;
 
 class App extends Singleton {
-	use Facade;
-
-	private $_config;
+	private $config;
 	private $db;
 	private $router;
 	private $logger;
 	private $cache;
 
 	function __construct() {
-		$this->_config = require_once '../config.php';
+		$this->config = require_once '../config.php';
 	}
 
 	public function initialize() {
@@ -28,13 +25,13 @@ class App extends Singleton {
 		$this->logger = Logger::getInstance($this);
 		$this->cache  = Cache::getInstance($this);
 
-		// $this->models = new Modeler
+		$this->db->connect();
 	}
 
 	public function config($keypath) {
 		$keyparts = explode(".", $keypath);
 
-		$_config = $this->_config;
+		$_config = $this->config;
 
 		foreach ($keyparts as $part) {
 			if (array_key_exists($part, $_config)) {

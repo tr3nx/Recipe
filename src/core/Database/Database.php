@@ -3,11 +3,8 @@
 namespace Core\Database;
 
 use Core\Support\Singleton;
-use Core\Support\Facade;
 
 class Database extends Singleton {
-	use Facade;
-
 	protected $connection;
 
 	function __construct($app) {

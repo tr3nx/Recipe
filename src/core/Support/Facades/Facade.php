@@ -2,7 +2,7 @@
 
 namespace Core\Support;
 
-trait Facade {
+class Facade {
 	public static function __callStatic($method, $args) {
 		return (static::getInstance())->$method(...$args);
 	}

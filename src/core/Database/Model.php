@@ -9,7 +9,6 @@ abstract class Model {
 	protected $table;
 
 	public static function __callStatic($method, $parameters) {
-		var_dump(true);
 		return (new static)->$method(...$parameters);
 	}
 
@@ -26,14 +25,16 @@ abstract class Model {
 	}
 
 	public function first() {
-		return Database::getInstance()->executeQuery($this->query->limit(1)->toSql());
+		$t = $this->query->limit(1)->toSql();
+		print_r($t);
+		return Database::getInstance()->executeQuery($t);
 	}
 
 	public function get() {
 		return Database::getInstance()->executeQuery($this->query->toSql());
 	}
 
-	protected function find($id) {
+	public function find($id) {
 		$this->query = $this->newQuery()->where('id', $id);
 		return $this;
 	}
