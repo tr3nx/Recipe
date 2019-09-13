@@ -2,7 +2,7 @@
 
 namespace Core\Cache;
 
-use Core\Singleton;
+use Core\Support\Singleton;
 
 class Store extends Singleton {
 	private $cache;

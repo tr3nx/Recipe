@@ -2,10 +2,13 @@
 
 namespace Core\Database;
 
-use Core\Singleton;
+use Core\Support\Singleton;
+use Core\Support\Facade;
 
 class Database extends Singleton {
-	public $connection;
+	use Facade;
+
+	protected $connection;
 
 	function __construct($app) {
 		$this->connection_string = $app->config('db.dsn');
@@ -31,7 +34,7 @@ class Database extends Singleton {
 		return pg_flush($this->connection);
 	}
 
-	public function query($query) {
+	public function executeQuery($query) {
 		$result = pg_query($this->connection, $query);
 		return ($result)
 		? (object) [

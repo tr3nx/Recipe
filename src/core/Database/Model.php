@@ -2,28 +2,44 @@
 
 namespace Core\Database;
 
-use Core\Singleton;
-
-abstract class Model extends QueryBuilder, Singleton {
+abstract class Model {
 	private $db;
-	private $model;
 	private $query;
 
-	function __construct($db, $model) {
-		$this->db = $db;
-		$this->model = $model;
+	protected $table;
+
+	public static function __callStatic($method, $parameters) {
+		var_dump(true);
+		return (new static)->$method(...$parameters);
+	}
+
+	public function newInstance($attrs = []) {
+		return new static((array) $attrs);
+	}
+
+	public function newQueryBuilder() {
+		return new QueryBuilder();
+	}
+
+	public function newQuery() {
+		return $this->newQueryBuilder()->select(implode(', ', $this->fields))->from($this->table);
 	}
 
 	public function first() {
-		return $this->query->limit(1)->execute();
+		return Database::getInstance()->executeQuery($this->query->limit(1)->toSql());
 	}
 
 	public function get() {
-		return $this->query->execute();
+		return Database::getInstance()->executeQuery($this->query->toSql());
 	}
 
-	public function find($id) {
-		$this->query = $this->select('*')->from($model->table)->where('id', $id);
+	protected function find($id) {
+		$this->query = $this->newQuery()->where('id', $id);
+		return $this;
+	}
+
+	public function where($field, $value) {
+		$this->query = $this->newQuery()->where($field, $value);
 		return $this;
 	}
 
@@ -36,4 +52,11 @@ abstract class Model extends QueryBuilder, Singleton {
 	// public function update() {}
 
 	// public function delete() {}
+
+	// public function toJson() {
+	// 	$json = json_encode($this);
+	// 	return (json_last_error() !== JSON_ERROR_NONE)
+	// 		? "{}"
+	// 		: $json;
+	// }
 }

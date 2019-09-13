@@ -2,7 +2,7 @@
 
 namespace Core\Log;
 
-use Core\Singleton;
+use Core\Support\Singleton;
 
 class Logger extends Singleton {
 	private $logpath;

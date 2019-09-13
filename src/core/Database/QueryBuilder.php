@@ -12,12 +12,6 @@ class QueryBuilder {
 	private $offset;
 	private $sql;
 
-	protected $db;
-
-	function __construct($db) {
-		$this->db = $db;
-	}
-
 	public function select($fields) {
 		$this->fields = $fields;
 		return $this;
@@ -43,16 +37,17 @@ class QueryBuilder {
 		return $this;
 	}
 
-	public function limit($count) {
-		$this->limit = $count;
+	public function offset($amount) {
+		$this->offset = $amount;
+		return this;
+	}
+
+	public function limit($amount) {
+		$this->limit = $amount;
 		return $this;
 	}
 
-	public function execute() {
-		return $this->db->query($this->generateSql());
-	}
-
-	public function raw() {
+	public function toSql() {
 		return $this->generateSql();
 	}
 
@@ -74,6 +69,10 @@ class QueryBuilder {
 
 		if (isset($this->limit)) {
 			$this->sql .= "LIMIT {$this->limit}";
+		}
+
+		if (isset($this->offset)) {
+			$this->sql .= "OFFSET {$this->offset}";
 		}
 
 		return $this->sql;

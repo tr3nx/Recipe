@@ -6,8 +6,5 @@ use Core\Database\Model;
 
 class Recipe extends Model {
 	protected $table = 'recipes';
-
-	function __construct() {
-		parent::__construct(self::class);
-	}
+	protected $fields = ['id', 'username', 'email'];
 }

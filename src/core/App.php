@@ -6,8 +6,12 @@ use Core\Database\Database;
 use Core\Http\Router;
 use Core\Log\Logger;
 use Core\Cache\Store as Cache;
+use Core\Support\Singleton;
+use Core\Support\Facade;
 
 class App extends Singleton {
+	use Facade;
+
 	private $_config;
 	private $db;
 	private $router;
@@ -23,6 +27,8 @@ class App extends Singleton {
 		$this->router = Router::getInstance($this);
 		$this->logger = Logger::getInstance($this);
 		$this->cache  = Cache::getInstance($this);
+
+		// $this->models = new Modeler
 	}
 
 	public function config($keypath) {

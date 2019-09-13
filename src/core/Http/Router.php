@@ -2,7 +2,7 @@
 
 namespace Core\Http;
 
-use Core\Singleton;
+use Core\Support\Singleton;
 
 class Router extends Singleton {
 	private $routes;
