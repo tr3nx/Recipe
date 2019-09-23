@@ -5,14 +5,14 @@ namespace Core\Http;
 use Core\Support\Singleton;
 
 class Router extends Singleton {
-	private $routes;
+	private $routes = [];
 
-	function __construct($app) {
-		$this->routes = $app->config('routing') ?: [];
+	function __construct($routes) {
+		$this->routes = $routes;
 	}
 
-	public function get($url, $fn, $name = "") {
-		$this->routes[$url] = [$fn, $name];
+	public function set($url, $fn, $name = '', $method='GET') {
+		$this->routes[$url] = [$fn, $name, $method];
 	}
 
 	public function execute() {
@@ -20,9 +20,16 @@ class Router extends Singleton {
 		$response = new Response();
 
 		$route = $this->routes[$request->url];
-		if (!isset($route)) return;
+		if ( ! isset($route)) return;
 
-		[$controller, $method] = explode("::", $route[0]);
-		return $response->respond((new $controller())->{$method}([&$request, &$response]));
+		[$controller, $method] = explode('::', $route[0]);
+
+		$buffer = (new $controller())->{$method}([&$request, &$response]);
+
+		if (is_array($buffer)) {
+			$buffer = toJson($buffer);
+		}
+
+		return $response->respond($buffer);
 	}
 }

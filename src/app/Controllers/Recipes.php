@@ -5,16 +5,11 @@ namespace App\Controllers;
 use App\Models\Recipe;
 
 class Recipes {
-	private $recipes;
-
-	function __construct() {
-		$this->recipes = [];
-	}
-
 	public function index() {
-		return print_r((new Recipe)->find(1)->first(), true);
+		return (new Recipe)->get();
 	}
 
 	public function single($request, $response) {
+		return (new Recipe)->find($request->get('id'));
 	}
 }

@@ -3,61 +3,42 @@
 namespace Core\Database;
 
 abstract class Model {
-	private $db;
+	protected $table;
+	protected $fields = [];
+
 	private $query;
 
-	protected $table;
-
-	public static function __callStatic($method, $parameters) {
-		return (new static)->$method(...$parameters);
+	function __construct() {
+		$this->query = $this->newQuery();
 	}
 
-	public function newInstance($attrs = []) {
-		return new static((array) $attrs);
-	}
-
-	public function newQueryBuilder() {
-		return new QueryBuilder();
-	}
-
-	public function newQuery() {
-		return $this->newQueryBuilder()->select(implode(', ', $this->fields))->from($this->table);
-	}
-
-	public function first() {
-		$t = $this->query->limit(1)->toSql();
-		print_r($t);
-		return Database::getInstance()->executeQuery($t);
-	}
-
-	public function get() {
-		return Database::getInstance()->executeQuery($this->query->toSql());
+	public function get($limit = 0) {
+		if ($limit > 0) {
+			$this->query->limit($limit);
+		}
+		return $this->execute($this->query->toSql());
 	}
 
 	public function find($id) {
-		$this->query = $this->newQuery()->where('id', $id);
-		return $this;
+		return $this->execute($this->query->where('id', $id)->limit(1)->toSql());
 	}
 
 	public function where($field, $value) {
-		$this->query = $this->newQuery()->where($field, $value);
+		$this->query = $this->query->where($field, $value);
 		return $this;
 	}
 
-	public function count() {
-		return $this->query->execute()->rows ?: 0;
+	private function newQuery() {
+		$table = ($this->table) ?: array_pop(explode('\\', static::class)) . 's';
+		$fields = (count($this->fields)) ? implode(', ', $this->fields) : '*' ;
+		return (new QueryBuilder)->select($fields)->from($table);
 	}
 
-	// public function create() {}
-
-	// public function update() {}
-
-	// public function delete() {}
-
-	// public function toJson() {
-	// 	$json = json_encode($this);
-	// 	return (json_last_error() !== JSON_ERROR_NONE)
-	// 		? "{}"
-	// 		: $json;
-	// }
+	private function execute($sql) {
+		$ex = Database::getInstance()->executeQuery($sql);
+		if ( ! array_key_exists('data', $ex)) {
+			return $ex;
+		}
+		return $ex->data;
+	}
 }

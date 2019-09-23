@@ -4,8 +4,7 @@ define('APP_START', microtime(true));
 
 require __DIR__ . "/../vendor/autoload.php";
 
-$GLOBALS['app'] = $app = \Core\App::getInstance();
+$app = \Core\App::getInstance();
+$app->boot();
 
-$app->initialize();
-
-echo $app->run();
+exit($app->run());

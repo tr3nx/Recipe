@@ -10,20 +10,12 @@ return [
 		'/'             => ['\App\Controllers\Home::index', '/'],
 	],
 	'db' => [
-		'dsn' => getenv('DATABASE_PATH'),
+		'dsn' => env('DATABASE_PATH', 'postgres:dsn'),
 	],
 	'paths' => [
 		'root'    => __DIR__,
 		'app'     => '/app',
 		'views'   => '/views',
-		'storage' => '/storage',
-		'logs'    => '/storage/logs',
-	],
-	'logging' => [
-		'fileformat' => 'm-d-Y',
-	],
-	'caching' => [
-		'driver'     => 'memory',
-		'bustchance' => 2,
-	],
+		'storage' => '/storage'
+	]
 ];

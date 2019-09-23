@@ -7,12 +7,15 @@ use Core\Support\Singleton;
 class Database extends Singleton {
 	protected $connection;
 
-	function __construct($app) {
-		$this->connection_string = $app->config('db.dsn');
+	private $dsn;
+
+	function __construct($dsn) {
+		$this->dsn = $dsn;
 	}
 
 	public function connect() {
-		$this->connection = pg_connect($this->connection_string);
+		$this->connection = pg_connect($this->dsn);
+		return $this->isConnected();
 	}
 
 	public function status() {
@@ -33,17 +36,26 @@ class Database extends Singleton {
 
 	public function executeQuery($query) {
 		$result = pg_query($this->connection, $query);
-		return ($result)
-		? (object) [
-			'data'   => pg_fetch_assoc($result),
-			'raw'      => $result,
-			'status'   => pg_result_status($result),
+
+		if ( ! $result) {
+			return pg_last_error($this->connection);
+		}
+
+		$data = [];
+		$rows = pg_num_rows($result);
+		while ($rows > 0 && $row = pg_fetch_assoc($result)) {
+			$data[] = $row;
+		}
+
+		return (object) [
+			'data'   => $data,
+			'raw'    => $result,
+			'status' => pg_result_status($result),
 			'counts' => [
+				'rows'     => $rows,
 				'fields'   => pg_num_fields($result),
-				'rows'     => pg_num_rows($result),
 				'affected' => pg_affected_rows($result)
 			]
-		]
-		: pg_last_error($this->connection);
+		];
 	}
 }
