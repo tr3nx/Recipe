@@ -5,33 +5,30 @@ namespace Core\Template;
 use Core\App;
 
 class View {
-	public static function render($path, $data=[]) {
-		if (strlen($path) <= 0) {
-			return false;
-		}
-
+	public static function render($templateName, $incoming=[]) {
 		$app = App::getInstance();
 
-		$filepath = $app->config('paths.root')
-				. '/'
-				. $app->config('paths.views')
-				. '/'
-				. $path
-				. '.php';
+		$data['site'] = [
+			'title' => $app->config('sitename'),
+			'header' => '',
+			'footer' => '',
+		];
+		$data['data'] = $incoming;
 
-		if ( ! file_exists($filepath)) {
-			return false;
-		}
+		$viewPath = $app->config('paths.root') . $app->config('paths.views') . '/';
+		$templatePath = $viewPath . $templateName . '.php';
 
-		if (is_dir($filepath)) {
-			return false;
-		}
+		if ( ! file_exists($templatePath)) return false;
+		if (is_dir($templatePath)) return false;
 
-		$tmp = file_get_contents($filepath);
-		if (strlen($tmp) <= 0) {
-			return false;
-		}
+		extract($data);
 
-		return $tmp;
+		ob_start();
+		include $templatePath;
+		include $viewPath . 'default.php';
+		$content = ob_get_contents();
+		ob_end_clean();
+
+		return $content;
 	}
 }

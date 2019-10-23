@@ -2,6 +2,7 @@
 
 return [
 	'hostname' => 'recipePHP',
+	'sitename' => 'recipePHP Framework',
 	'url' => 'https://recipe.localhost/',
 	'routing' => [
 		'/recipes/{id}' => ['\App\Controllers\Recipes::single', 'Recipe'],

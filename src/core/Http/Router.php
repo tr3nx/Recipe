@@ -8,7 +8,9 @@ class Router extends Singleton {
 	private $routes = [];
 
 	function __construct($routes) {
-		$this->routes = $routes;
+		$this->routes = array_merge($routes, [
+			'404' => ['\App\Controllers\Home::fourohfour', '404']
+		]);
 	}
 
 	public function set($url, $fn, $name = '', $method='GET') {
@@ -20,7 +22,9 @@ class Router extends Singleton {
 		$response = new Response();
 
 		$route = $this->routes[$request->url];
-		if ( ! isset($route)) return;
+		if ( ! isset($route)) {
+			return $response->error(404, $request->url)->redirect('404');
+		}
 
 		[$controller, $method] = explode('::', $route[0]);
 

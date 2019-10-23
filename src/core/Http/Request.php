@@ -10,13 +10,17 @@ class Request {
 	public $agent;
 	public $referer;
 
-	private $data;
+	protected $allowedPost = [];
+	protected $allowedGet = [];
+	protected $allowedServer = [];
+
+	private $data = [];
 
 	function __construct() {
 		$this->data = [
-			'post'   => $this->sanitize($_POST),
-			'get'    => $this->sanitize($_GET),
-			'server' => $this->sanitize($_SERVER)
+			'post'   => $this->sanitizePost($_POST),
+			'get'    => $this->sanitizeGet($_GET),
+			'server' => $this->sanitizeServer($_SERVER)
 		];
 
 		$this->url     = $this->data['server']['REQUEST_URI']     ?: '';
@@ -46,7 +50,15 @@ class Request {
 		return $this->data['server'][$key] ?: false;
 	}
 
-	private function sanitize($opts, $allowed = []) {
+	private function sanitizePost($opts, $allowed = []) {
+		return $opts;
+	}
+
+	private function sanitizeGet($opts, $allowed = []) {
+		return $opts;
+	}
+
+	private function sanitizeServer($opts, $allowed = []) {
 		return $opts;
 	}
 }

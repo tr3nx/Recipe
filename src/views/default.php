@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><?=$title;?></title>
+		<title><?=$site['title'];?></title>
 		<style>html,body{background-color:#252525;color:#f8f8f8;}</style>
-		<?=$head;?>
+		<?=$site['header'];?>
 	</head>
 	<body>
-		<?=$body;?>
-		<?=$foot;?>
+		<?=$site['body'];?>
+		<?=$site['footer'];?>
 	</body>
 </html>

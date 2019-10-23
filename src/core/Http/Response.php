@@ -8,7 +8,7 @@ class Response {
 
 	function __construct($headers = []) {
 		$this->headers = $headers;
-		$this->status = [200, 'OK'];
+		$this->status = [200, self::statuscodeLookup(200)];
 	}
 
 	public function respond($buffer) {
@@ -32,6 +32,22 @@ class Response {
 	public function withHeader($header, $value) {
 		$this->headers[$header] = $value;
 		return $this;
+	}
+
+	public function error($code) {
+		$this->status = [$code, self::statuscodeLookup($code)];
+		return $this;
+	}
+
+	public function redirect($route) {
+		return ';asd';
+	}
+
+	public static function statuscodeLookup($code) {
+		switch ($code) {
+			case 200: return 'Ok';        break;
+			case 404: return 'Not found'; break;
+		}
 	}
 
 	private function applyHeaders() {
