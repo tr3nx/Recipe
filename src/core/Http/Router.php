@@ -20,7 +20,7 @@ class Router extends Singleton {
 		$response = new Response();
 
 		$route = $this->routes[$request->url];
-		if ( ! isset($route)) return;
+		if ( ! isset($route)) { return; }
 
 		[$controller, $method] = explode('::', $route[0]);
 

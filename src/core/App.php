@@ -6,13 +6,14 @@ use Core\Database\Database;
 use Core\Http\Router;
 use Core\Support\Singleton;
 
+include 'Support/helpers.php';
+
 class App extends Singleton {
 	private $config = [];
 	private $db;
 	private $router;
 
 	function __construct() {
-		include 'Support/helpers.php';
 		$this->config = include '../config.php';
 	}
 
