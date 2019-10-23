@@ -22,6 +22,7 @@ class Router extends Singleton {
 		$response = new Response();
 
 		$route = $this->routes[$request->url];
+
 		if ( ! isset($route)) {
 			return $response->error(404, $request->url)->redirect('404');
 		}
