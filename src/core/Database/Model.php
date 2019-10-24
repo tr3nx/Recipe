@@ -30,7 +30,7 @@ abstract class Model {
 
 	private function newQuery() {
 		$table = ($this->table) ?: array_pop(explode('\\', static::class)) . 's';
-		$fields = (count($this->fields)) ? implode(', ', $this->fields) : '*' ;
+		$fields = (count($this->fields)) ? implode(', ', $this->fields) : '*';
 		return (new QueryBuilder)->select($fields)->from($table);
 	}
 

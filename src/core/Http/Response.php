@@ -8,7 +8,7 @@ class Response {
 
 	function __construct($headers = []) {
 		$this->headers = $headers;
-		$this->status = [200, self::statuscodeLookup(200)];
+		$this->status = [200, self::statusCodeLookup(200)];
 	}
 
 	public function respond($buffer) {
@@ -35,30 +35,30 @@ class Response {
 	}
 
 	public function error($code) {
-		$this->status = [$code, self::statuscodeLookup($code)];
+		$this->status = [$code, self::statusCodeLookup($code)];
 		return $this;
 	}
 
 	public function redirect($route) {
-		return ';asd';
+		return '';
 	}
 
-	public static function statuscodeLookup($code) {
+	public static function statusCodeLookup($code) {
 		switch ($code) {
 			case 200: return 'Ok';        break;
 			case 404: return 'Not found'; break;
 		}
 	}
 
+	private function applyStatus() {
+		http_response_code($this->status[0]);
+		return $this;
+	}
+
 	private function applyHeaders() {
 		foreach ($this->headers as $key => $value) {
 			header(sprintf('%s: %s', $key, $value));
 		}
-		return $this;
-	}
-
-	private function applyStatus() {
-		http_response_code($this->status[0]);
 		return $this;
 	}
 
