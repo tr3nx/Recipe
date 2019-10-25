@@ -7,9 +7,9 @@ use Core\Support\Singleton;
 class Store extends Singleton {
 	private $cache = [];
 
-	public function set($key, $data, $expires = 0) {
+	public function set($key, $data, $expires = 999999) {
 		$this->cache[$key] = [
-			'expires' => time() + ($expires) ?: 9999999,
+			'expires' => time() + $expires,
 			'data' => $data
 		];
 	}

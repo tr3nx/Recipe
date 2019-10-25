@@ -5,14 +5,12 @@ namespace Core\Log;
 use Core\Support\Singleton;
 
 class Logger extends Singleton {
-	private $logpath;
+	private $logsfolder;
+	private $logname;
 
 	function __construct($app) {
-		$this->logpath = $app->config('paths.root')
-			. $app->config('paths.logs')
-			. '/'
-			. date($app->config('logging.fileformat'))
-			. '.log';
+		$this->logsfolder = pather([$app->config('paths.root'), $app->config('paths.logs')];
+		$this->logname = date($app->config('logging.fileformat')) . '.log';
 	}
 
 	public static function error($msg) {

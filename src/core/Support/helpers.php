@@ -28,3 +28,11 @@ if ( ! function_exists('isJson')) {
 		return (json_last_error() == JSON_ERROR_NONE);
 	}
 }
+
+if ( ! function_exists('pather')) {
+	function pather($paths, $relative = false) {
+		if ( ! is_array($paths)) { return $paths; }
+		$path = implode('/', array_map(function($item) { return trim($item, '/'); }, $paths));
+		return $relative ? $path : '/' . $path;
+	}
+}
