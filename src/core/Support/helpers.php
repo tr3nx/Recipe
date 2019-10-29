@@ -32,6 +32,7 @@ if ( ! function_exists('isJson')) {
 if ( ! function_exists('pather')) {
 	function pather($paths, $relative = false) {
 		if ( ! is_array($paths)) { return $paths; }
+		if (count($paths) <= 1) { return array_pop($paths); }
 		$path = implode('/', array_map(function($item) { return trim($item, '/'); }, $paths));
 		return $relative ? $path : '/' . $path;
 	}

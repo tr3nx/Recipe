@@ -1,5 +1,7 @@
 <?php
 
+namespace Core\Filesystem;
+
 class Filesystem {
 	public static function exists($path) {
 		return file_exists($path);
@@ -83,18 +85,18 @@ class Filesystem {
 		return file_get_contents($path);
 	}
 
-	public static function put($path, $contents) {
-		return file_put_contents($path, $contents);
+	public static function put($path, $contents = '', $flags = 0) {
+		return file_put_contents($path, $contents, $flags);
 	}
 
 	public static function append($path, $data) {
-		return file_put_contents($path, $data, FILE_APPEND);
+		return static::put($path, $data, FILE_APPEND);
 	}
 
 	public static function prepend($path, $data) {
-		if ($this->exists($path)) {
-			return $this->put($path, $data . $this->get($path));
+		if (static::exists($path)) {
+			return static::put($path, $data . static::get($path));
 		}
-		return $this->put($path, $data);
+		return static::put($path, $data);
 	}
 }

@@ -2,9 +2,10 @@
 
 namespace Core;
 
-use Core\Database\Database;
 use Core\Http\Router;
 use Core\Support\Singleton;
+use Core\Database\Database;
+use Core\Logger\Log;
 
 include 'Support/helpers.php';
 
@@ -18,6 +19,9 @@ class App extends Singleton {
 	}
 
 	public function boot() {
+		Log::getInstance($this);
+		Log::debug('Init');
+
 		$this->db = Database::getInstance($this->config('db.dsn'));
 		$this->db->connect();
 

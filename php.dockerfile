@@ -14,6 +14,10 @@ COPY ./src /var/www
 
 WORKDIR /var/www
 
+RUN mkdir -p /var/www/storage/logs
+
 RUN composer install --prefer-source --no-interaction
 
 ENV PATH="~/.composer/vendor/bin:./vendor/bin:${PATH}"
+
+RUN chown -R www-data:www-data /var/www

@@ -17,6 +17,10 @@ return [
 		'root'    => __DIR__,
 		'app'     => '/app',
 		'views'   => '/views',
-		'storage' => '/storage'
+		'storage' => '/storage',
+		'logs'    => '/storage/logs',
+	],
+	'logging' => [
+		'fileformat' => 'm-d-y'
 	]
 ];

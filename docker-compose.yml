@@ -30,6 +30,7 @@ services:
     restart: always
     environment:
       DATABASE_PATH: postgres://recipe@db/recipe
+      CACHE_PATH: redis://recipe@recipe
 
   db:
     image: postgres:alpine
@@ -41,9 +42,12 @@ services:
       POSTGRES_USER: recipe
       POSTGRES_PASS: recipe
 
-#  redis:
-#    image: redis:alpine
-#    restart: always
+  redis:
+    image: redis:alpine
+    restart: always
+    environment:
+      REDIS_USER: recipe
+      REDIS_PASS: recipe
 
 volumes:
   db-data:

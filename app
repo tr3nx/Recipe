@@ -20,6 +20,10 @@ if [ "$1" == "build" ] ; then
 	docker-compose up -d
 fi
 
+if [ "$1" == "sh" ] ; then
+	docker-compose exec php sh
+fi
+
 # if [ "$1" == "test" ] ; then
 # 	./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/EmailTest
 # fi
