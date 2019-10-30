@@ -30,7 +30,6 @@ services:
     restart: always
     environment:
       DATABASE_PATH: postgres://recipe@db/recipe
-      CACHE_PATH: redis://recipe@recipe
 
   db:
     image: postgres:alpine
@@ -45,9 +44,10 @@ services:
   redis:
     image: redis:alpine
     restart: always
-    environment:
-      REDIS_USER: recipe
-      REDIS_PASS: recipe
+    volumes:
+      - ./configs/redis.conf:/usr/local/etc/redis/redis.conf
+    command:
+      sh -c 'redis-server /usr/local/etc/redis/redis.conf'
 
 volumes:
   db-data:
