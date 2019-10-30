@@ -6,7 +6,7 @@ class QueryBuilder {
 	private $table;
 	private $fields = [];
 	private $wheres = [];
-	private $orderby = 'id';
+	private $orderby;
 	private $sort = 'DESC';
 	private $limit = 10;
 	private $offset = 0;
@@ -26,12 +26,12 @@ class QueryBuilder {
 		return $this;
 	}
 
-	public function orderby($field = 'id') {
+	public function orderby($field) {
 		$this->orderby = $field;
 		return $this;
 	}
 
-	public function sort($direction = 'DESC') {
+	public function sort($direction) {
 		$this->sort = $direction;
 		return $this;
 	}
@@ -47,27 +47,27 @@ class QueryBuilder {
 	}
 
 	public function toSql() {
-		$sql = "SELECT {$this->fields} FROM {$this->table} ";
+		$sql = "SELECT {$this->fields} FROM {$this->table}";
 
 		if (count($this->wheres)) {
-			$wheres = 'WHERE ';
+			$wheres = ' WHERE ';
 			foreach($this->wheres as $where) {
-				$wheres .= "{$where[0]} = {$where[1]} AND ";
+				$wheres .= "{$where[0]} = {$where[1]} AND";
 			}
-			$sql .= substr($wheres, 0, -4);
+			$sql .= substr($wheres, 0, -3);
 		}
 
 		if (isset($this->orderby)) {
 			$this->sort === 'DESC' ? 'DESC' : 'ASC';
-			$sql .= "ORDER BY {$this->orderby} {$this->sort} ";
+			$sql .= " ORDER BY {$this->orderby} {$this->sort}";
 		}
 
-		if (isset($this->limit)) {
-			$sql .= "LIMIT {$this->limit}";
+		if ($this->limit > 0) {
+			$sql .= " LIMIT {$this->limit}";
 		}
 
-		if (isset($this->offset)) {
-			$sql .= "OFFSET {$this->offset}";
+		if ($this->offset > 0) {
+			$sql .= " OFFSET {$this->offset}";
 		}
 
 		return $sql;
