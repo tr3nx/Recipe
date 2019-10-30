@@ -21,6 +21,7 @@ return [
 		'logs'    => '/storage/logs',
 	],
 	'logging' => [
-		'fileformat' => 'm-d-y'
+		'fileformat' => 'm-d-y',
+		'prefixformat' => '[%s] (%s) %s',
 	]
 ];

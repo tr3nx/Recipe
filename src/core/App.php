@@ -20,7 +20,6 @@ class App extends Singleton {
 
 	public function boot() {
 		Log::getInstance($this);
-		Log::debug('Init');
 
 		$this->db = Database::getInstance($this->config('db.dsn'));
 		$this->db->connect();
