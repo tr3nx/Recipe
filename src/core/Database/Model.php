@@ -3,24 +3,30 @@
 namespace Core\Database;
 
 abstract class Model {
+	public $data;
+
 	protected $table;
 	protected $fields = [];
 
 	private $query;
 
 	function __construct() {
-		$this->query = $this->newQuery();
+		$this->table  = ($this->table) ?: array_pop(explode('\\', static::class)) . 's';
+		$this->fields = (count($this->fields))
+					  ? implode(', ', $this->fields)
+					  : '*';
+		$this->query  = $this->newQuery();
+		$this->data   = [];
 	}
 
 	public function get($limit = 0) {
-		if ($limit > 0) {
-			$this->query->limit($limit);
-		}
-		return $this->execute($this->query->toSql());
+		if ($limit > 0) { $this->query->limit($limit); }
+		$this->data = $this->execute($this->query->toSql())->data;
+		return $this->data;
 	}
 
-	public function find($id) {
-		return $this->execute($this->query->where('id', $id)->limit(1)->toSql());
+	public function first() {
+		return $this->get(1);
 	}
 
 	public function where($field, $value) {
@@ -28,17 +34,15 @@ abstract class Model {
 		return $this;
 	}
 
+	public function save() {}
+
+	public function update() {}
+
 	private function newQuery() {
-		$table = ($this->table) ?: array_pop(explode('\\', static::class)) . 's';
-		$fields = (count($this->fields)) ? implode(', ', $this->fields) : '*';
-		return (new QueryBuilder)->select($fields)->from($table);
+		return (new QueryBuilder)->select($this->fields)->from($this->table);
 	}
 
 	private function execute($sql) {
-		$ex = Database::getInstance()->executeQuery($sql);
-		if ( ! array_key_exists('data', $ex)) {
-			return $ex;
-		}
-		return $ex->data;
+		return Database::getInstance()->executeQuery($sql);
 	}
 }

@@ -17,16 +17,12 @@ class Home {
 
 	public function single() {
 		dd('test');
-		$data = [
-			'title' => 'single is working'
-		];
+		$data = [ 'title' => 'single is working' ];
 		return View::render('home/single', $data);
 	}
 
 	public function fourohfour() {
-		$data = [
-			'attempted_url' => $request->url
-		];
+		$data = [ 'attempted_url' => $request->url ];
 		return View::render('error/404', $data);
 	}
 }

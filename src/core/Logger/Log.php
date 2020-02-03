@@ -25,6 +25,6 @@ class Log extends Singleton {
 	public static function log($msg)       { static::getInstance()->write((string) $msg, '='); }
 
 	private function write($msg, $type = '=') {
-		return (bool) Filesystem::append($this->logpath, sprintf("%s\r\n", sprintf($this->prefixformat, $type, date('m-d-y h:m:s'), $msg)));
+		return (bool) Filesystem::append($this->logpath, sprintf($this->prefixformat . "\n", $type, date('m-d-y h:m:s'), $msg));
 	}
 }

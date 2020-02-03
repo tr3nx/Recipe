@@ -6,10 +6,13 @@ use App\Models\Recipe;
 
 class Recipes {
 	public function index() {
-		return (new Recipe)->get();
+		$recipe = new Recipe;
+		$rs = $recipe->get();
+		d($rs->data['title']);
+		dd($rs);
 	}
 
 	public function single($request, $response) {
-		return (new Recipe)->find($request->get('id'));
+		return (new Recipe)->where($request->get('id'))->first();
 	}
 }

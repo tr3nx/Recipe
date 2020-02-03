@@ -1,10 +1,16 @@
 <?php
 
-if ( ! function_exists('dd')) {
-	function dd($var) {
+if ( ! function_exists('d')) {
+	function d($var) {
 		echo '<pre>';
 		print_r($var);
 		echo '</pre>';
+	}
+}
+
+if ( ! function_exists('dd')) {
+	function dd($var) {
+		d($var);
 		die();
 	}
 }
